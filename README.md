@@ -1,54 +1,51 @@
- EMA Crossover Backtest
+EMA Crossover Backtester (Java)
 
-Backtest a 5-minute EMA-35/EMA-70 crossover trading strategy on multiple stock CSV files.
-Includes logic for entry, stop-loss, take-profit, and time-based exits — with results summarized into a single CSV report.
+This project simulates a backtesting strategy on stock market data using a 5-minute EMA crossover strategy. Written in Java, it allows you to test the performance of a trading logic based on technical indicators (EMA 35 & EMA 70), and outputs the results into CSV files for analysis.
 
- Features
+⸻
 
-Uses Exponential Moving Averages (EMA-35 and EMA-70)
+Strategy Logic
 
+Entry Conditions:
+	•	Long (Buy): When EMA 35 crosses above EMA 70 (Bullish crossover), after 10:00 AM
+	•	Short (Sell): When EMA 35 crosses below EMA 70 (Bearish crossover), after 10:00 AM
 
-Strategy:
+Exit Conditions:
+	•	Stop Loss: 1% adverse price movement
+	•	Take Profit: 2.5% favorable price movement
+	•	Time-based Exit: Force exit at 3:20 PM if neither SL nor TP hit
 
-Buy when EMA-35 crosses above EMA-70
+⸻
 
-Sell when EMA-35 crosses below EMA-70
+Output Files
 
-Start trade after 10.00 and end at 15.20
+1. output/orderinfo2.csv
 
+Detailed log of each trade:
 
-Exit at:
+```TradeId, Stock, Type, EntryDate, EntryTime, EntryPrice,EntryEMA35, EntryEMA70, ExitDate, ExitTime, ExitPrice,ExitEMA35, ExitEMA70,DidCrossoverHappen, StopLossPrice,TakeProfitPrice, Profit%, ExitReason ```
 
-+2.5% profit (TP)
+ Additional Notes:
+	•	ExitReason: One of SL (Stop Loss), TP (Take Profit), or TIME (Time-based exit)
+	•	EMA prices and crossover condition are recorded at both entry and exit
 
-−1% loss (SL)
+⸻
 
+Setup Instructions
 
-Outputs one summary CSV in output/summary.csv
+Prerequisites:
+	•	Java 17+
+	•	Maven
 
-Built in Java 17 + Maven
+Build & Run:
 
+```mvn clean compile exec:java```
 
- Input Format
-Each file in data/ must be a CSV with this format:
+⸻
 
-timestamp,open,high,low,close,volume
-13-07-17 09:15,264.8,266.5,264.15,266.0,703982
-Timestamp format: dd-MM-yy HH:mm
+ Sample Trade Record
 
-5-minute OHLCV data per stock
+TradeId	Stock	Type	EntryTime	EntryPrice	ExitPrice	Profit%	ExitReason	DidCrossoverHappen
+102	HDFCBANK	L	10:25	1520.00	1560.00	2.63	TP	Bullish
 
-
- Output Summary
-Generates a file: output/summary.csv with columns:
-
-Stock,TradingDays,TotalTrades,Profit,WinPercent
-AAPL,223,1021,25012,66.66
-TSLA,643,1211,18401,72.13
-
-
-
-Run the Backtest
-
- ``` mvn clean compile exec:java ```
-
+⸻
