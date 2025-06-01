@@ -1,0 +1,16 @@
+# Java
+*.class
+*.jar
+*.log
+
+# Maven
+/target/
+/.idea/
+/*.iml
+
+# Output and data
+/output/
+data/*.csv
+
+# OS
+.DS_Store
